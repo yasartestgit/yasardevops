@@ -1,0 +1,22 @@
+- name: deploy jenkins on ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: java package install on ubuntu
+      apt:
+        name: openjdk-8-jdk
+        update_cache: yes
+        state: present
+
+    - name: add GPG key for jenkins
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present
+    - name: add repository
+      apt_repository:
+        repo: 'deb http://pkg.jenkins.io/debian-stable binary/'
+        state: present
+    - name: install jenkins on ubuntu
+      apt:
+        name: jenkins
+        state: present
